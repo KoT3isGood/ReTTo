@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Core\Core.cpp" />
+    <ClCompile Include="..\Core\ImGuiBridge.cpp" />
     <ClCompile Include="..\Core\main.cpp" />
     <ClCompile Include="..\Include\imgui.cpp" />
     <ClCompile Include="..\Include\imgui_demo.cpp" />
@@ -149,6 +150,9 @@
     <ClCompile Include="..\Include\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\Include\imgui_tables.cpp" />
     <ClCompile Include="..\Include\imgui_widgets.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\x64\Debug\shader.fsh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

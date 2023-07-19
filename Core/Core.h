@@ -8,5 +8,6 @@
 #include <GLFW/glfw3.h>
 
 namespace Core {
+	namespace ImGuiBridge {}
 	int runWindow();
 }

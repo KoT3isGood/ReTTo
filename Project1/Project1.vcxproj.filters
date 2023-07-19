@@ -53,5 +53,13 @@
     <ClCompile Include="..\Include\imgui_demo.cpp">
       <Filter>Core\imgui</Filter>
     </ClCompile>
+    <ClCompile Include="..\Core\ImGuiBridge.cpp">
+      <Filter>Core\imgui</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\x64\Debug\shader.fsh">
+      <Filter>Core</Filter>
+    </None>
   </ItemGroup>
 </Project>
