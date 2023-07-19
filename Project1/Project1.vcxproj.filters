@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2655d471-7883-4468-8bdd-72fde5b34f04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{012326a3-2115-4cdc-9a7a-925ba64511d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\imgui">
+      <UniqueIdentifier>{66e0e8c1-ddd4-40e1-bf70-a546f7dbb03e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Core\Output.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\Core.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Game\GameSettings.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\toggle.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Core\main.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Core\Core.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\imgui_draw.cpp">
+      <Filter>Core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\imgui_impl_glfw.cpp">
+      <Filter>Core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\imgui_impl_opengl3.cpp">
+      <Filter>Core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\imgui_tables.cpp">
+      <Filter>Core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\imgui_widgets.cpp">
+      <Filter>Core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\imgui.cpp">
+      <Filter>Core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Include\imgui_demo.cpp">
+      <Filter>Core\imgui</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
