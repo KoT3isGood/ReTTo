@@ -75,10 +75,12 @@ namespace Core {
 					ImGui::Begin("Hi", &infoOpened);
 
 					ImGui::Text("Hi there, I'm KoT3, developer of this game engine");
-					if (ImGui::Button("Github page")) {
-						ShellExecute(0, 0, L"http://www.google.com", 0, 0, SW_SHOW);
+					if (ImGui::Button("Documentation")) {
+						ShellExecute(0, 0, L"https://github.com/KoT3isGood/ReTTo/wiki", 0, 0, SW_SHOW);
 					};
-
+					if (ImGui::Button("Patreon")) {
+						ShellExecute(0, 0, L"https://www.patreon.com/kotofyt/membership", 0, 0, SW_SHOW);
+					};
 					ImGui::End();
 
 				}
@@ -121,6 +123,8 @@ namespace Core {
 		ImGui::StyleColorsDark();
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 330");
+
+		
 
 		while (!glfwWindowShouldClose(window)) {
 			glClear(GL_COLOR_BUFFER_BIT);
