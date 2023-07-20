@@ -212,6 +212,9 @@ namespace Core {
 			print(error, "Shader Linker Error");
 			print(error, infoLog);
 		}
+
+
+
 		glDeleteShader(vertexShader);
 		glDeleteShader(fragmentShader);
 
@@ -259,6 +262,11 @@ namespace Core {
 		// uncomment this call to draw in wireframe polygons.
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
+		float data_pos1[9] = {10.0,0.0,0.0,
+							  10.0,0.0,1.0,
+							  10.0,1.0,0.0};
+		print(info, sizeof(data_pos1));
+
 		// render loop
 		while (!glfwWindowShouldClose(window)) {
 			
@@ -268,13 +276,12 @@ namespace Core {
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 
-			ImGuiBridge::runImGui();
-
-			ImGui::Render();
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
+			GLint coordsUniformlocationPos1 = glGetUniformLocation(shaderProgram, "u_pos1");
+			glUniformMatrix3fv(coordsUniformlocationPos1, 9, false, data_pos1);
 
+			glUniform2f(glGetUniformLocation(shaderProgram, "u_resolution"), GameSettings::resolution[0], GameSettings::resolution[1]);
 
 			// ------
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -286,6 +293,12 @@ namespace Core {
 			//glDrawArrays(GL_TRIANGLES, 0, 6);
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 			// glBindVertexArray(0); // no need to unbind it every time 
+
+
+			ImGuiBridge::runImGui();
+
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 			
 

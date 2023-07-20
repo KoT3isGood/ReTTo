@@ -1,4 +1,6 @@
 ﻿E:\Visual Studio\Community\App\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(531,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (Project1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Core.cpp
+E:\Andrey\r\retto\Core\Core.cpp(284,124): warning C4244: 'argument': conversion from 'const int' to 'GLfloat', possible loss of data
+E:\Andrey\r\retto\Core\Core.cpp(284,95): warning C4244: 'argument': conversion from 'const int' to 'GLfloat', possible loss of data
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
   Project1.vcxproj -> E:\Andrey\r\retto\x64\Debug\Retto.exe
