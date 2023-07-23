@@ -22,6 +22,8 @@
 
 #include "ImGuiBridge.cpp"
 
+
+
 // IMGUI BRIDGE
 bool toggle(bool input) {
 	if (input == 1) {
@@ -31,14 +33,51 @@ bool toggle(bool input) {
 }
 
 
+int maxBounces = 8;
+int raysPerPixel = 1;
+float CameraYaw = 180;
+float Emmision = 0;
+float CameraPitch = 0;
+float CameraPos[3] = {3,0,0};
+
+bool isInteractable = true;
+
+int triangleOffset = 0;
+
+
+float SpherePosition[] = {
+	-10.0,0.0,0.0,
+	0,0,0.0,
+	0,0.0,11.0,
+};
+
+float SphereColor[] = {
+	1.0,1.0,1.0,
+	0.0,1.0,0.0,
+	0.0,0.0,1.0,
+};
+float SphereSize[] = {
+	7.5,
+	1,
+	10,
+};
+float SphereEmmision[] = {
+	1.0,
+	0.0,
+	0.0,
+};
+
+
+
 namespace Core {
 	namespace ImGuiBridge {
-		void openInfo() {
+		
 
-		}
 
 		bool infoOpened = false;
-		char url[1000] = "https://www.google.com";
+		bool triangleEditorOpened = false;
+		bool rayTracerOptions = false;
+
 
 		void runImGui() {
 
@@ -64,11 +103,28 @@ namespace Core {
 				ImGui::EndMenu();
 			}
 
+			if (ImGui::BeginMenu("Edit"))
+			{
+				if (ImGui::MenuItem("Sphere Editor")) {
+
+
+					triangleEditorOpened = toggle(triangleEditorOpened);
+				}
+
+				if (ImGui::MenuItem("Ray Tracing Options")) {
+
+
+					rayTracerOptions = toggle(rayTracerOptions);
+				}
+				ImGui::EndMenu();
+
+			}
+
 
 			ImGui::EndMainMenuBar();
 
 			if (infoOpened) {
-				ImGui::Begin("Hi", &infoOpened);
+				ImGui::Begin("ReTTo 1.0.0", &infoOpened);
 
 				ImGui::Text("Hi there, I'm KoT3, developer of this game engine");
 				if (ImGui::Button("Documentation")) {
@@ -77,13 +133,75 @@ namespace Core {
 				if (ImGui::Button("Patreon")) {
 					ShellExecute(0, 0, L"https://www.patreon.com/kotofyt/membership", 0, 0, SW_SHOW);
 				};
+				ImGui::Text("ReTTo - 1.0.0");
 				ImGui::End();
 
 			}
+			/*if (triangleEditorOpened) {
+				ImGui::Begin("Triangle Editor", &triangleEditorOpened);
+
+				ImGui::DragInt("TrianglePicker", &triangleOffset);
+				ImGui::Text("Color");
+				ImGui::DragFloat("R", &data_color1[0 + triangleOffset * 3], 0.001f, 0.0f, 1.0f);
+				ImGui::DragFloat("G", &data_color1[1 + triangleOffset * 3], 0.001f, 0.0f, 1.0f);
+				ImGui::DragFloat("B", &data_color1[2 + triangleOffset * 3], 0.001f, 0.0f, 1.0f);
+				ImGui::Text("Vertex1");
+				ImGui::DragFloat("1X", &data_pos1[0+triangleOffset*9], 0.01f, -100.0f, 100.0f);
+				ImGui::DragFloat("1Y", &data_pos1[1 + triangleOffset * 9], 0.01f, -100.0f, 100.0f);
+				ImGui::DragFloat("1Z", &data_pos1[2 + triangleOffset * 9], 0.01f, -100.0f, 100.0f);
+				ImGui::Text("Vertex2");
+				ImGui::DragFloat("2X", &data_pos1[3 + triangleOffset * 9], 0.01f, -100.0f, 100.0f);
+				ImGui::DragFloat("2Y", &data_pos1[4 + triangleOffset * 9], 0.01f, -100.0f, 100.0f);
+				ImGui::DragFloat("2Z", &data_pos1[5 + triangleOffset * 9], 0.01f, -100.0f, 100.0f);
+				ImGui::Text("Vertex3");
+				ImGui::DragFloat("3X", &data_pos1[6 + triangleOffset * 9], 0.01f, -100.0f, 100.0f);
+				ImGui::DragFloat("3Y", &data_pos1[7 + triangleOffset*9], 0.01f, -100.0f, 100.0f);
+				ImGui::DragFloat("3Z", &data_pos1[8 + triangleOffset * 9], 0.01f, -100.0f, 100.0f);
+
+				if(ImGui::Button("PrintArray")) {
+
+					std::cout << data_pos1[0 + triangleOffset * 9] << ", " << data_pos1[1 + triangleOffset * 9] << ", " << data_pos1[2 + triangleOffset * 9] << "," << "\n";
+					std::cout << data_pos1[3 + triangleOffset * 9] << ", " << data_pos1[4 + triangleOffset * 9] << ", " << data_pos1[5 + triangleOffset * 9] << "," << "\n";
+					std::cout << data_pos1[6 + triangleOffset * 9] << ", " << data_pos1[7 + triangleOffset * 9] << ", " << data_pos1[8 + triangleOffset * 9] << "," << "\n";
+				}
+
+				ImGui::End();
+			}*/
+
+			if (triangleEditorOpened) {
+				ImGui::Begin("Sphere Editor", &triangleEditorOpened);
+
+				ImGui::DragInt("Picked Sphere", &triangleOffset);
 
 
+				ImGui::Text("Material");
+				ImGui::DragFloat("R", &SphereColor[0 + triangleOffset * 3], 0.001f, 0.0f, 1.0f);
+				ImGui::DragFloat("G", &SphereColor[1 + triangleOffset * 3], 0.001f, 0.0f, 1.0f);
+				ImGui::DragFloat("B", &SphereColor[2 + triangleOffset * 3], 0.001f, 0.0f, 1.0f);
+				ImGui::DragFloat("Emmision", &SphereEmmision[triangleOffset], 0.001f, 0.0f, 1.0f);
+
+				ImGui::Text("Position");
+				ImGui::DragFloat("X", &SpherePosition[0 + triangleOffset * 3], 0.01f, -100.0f, 100.0f);
+				ImGui::DragFloat("Y", &SpherePosition[1 + triangleOffset * 3], 0.01f, -100.0f, 100.0f);
+				ImGui::DragFloat("Z", &SpherePosition[2 + triangleOffset * 3], 0.01f, -100.0f, 100.0f);
+
+				ImGui::Text("Size");
+				ImGui::DragFloat("Size", &SphereSize[triangleOffset],0.01f);
+
+				ImGui::End();
+			}
+
+			if (rayTracerOptions) {
+				ImGui::Begin("Ray Tracing Options", &rayTracerOptions);
+				ImGui::DragFloat("Camera Yaw", &CameraYaw,0.05f);
+				ImGui::DragFloat("Camera Pitch", &CameraPitch, 0.005f, -1.5707963f, 1.5707963f);
+				ImGui::DragFloat3("Camera Pos", CameraPos, 0.05f);
 
 
+				ImGui::DragInt("Max Bounces", &maxBounces,1.0f,1,30);
+				ImGui::DragInt("Amount Of Rays Per Pixel", &raysPerPixel, 1.0f, 1, 30);
+				ImGui::End();
+			}
 
 		}
 
@@ -91,6 +209,15 @@ namespace Core {
 }
 
 // CORE
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_F1 && action == GLFW_PRESS) {
+		isInteractable = toggle(isInteractable);
+		print(info, isInteractable);
+	}
+
+}
 
 
 namespace CoreTick {
@@ -102,7 +229,7 @@ namespace CoreTick {
 
 namespace Core {
 	
-
+	
 
 	const char* vertexShaderSource = "#version 330 core\n"
 		"layout (location = 0) in vec3 aPos;\n"
@@ -262,26 +389,56 @@ namespace Core {
 		// uncomment this call to draw in wireframe polygons.
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-		float data_pos1[9] = {10.0,0.0,0.0,
-							  10.0,0.0,1.0,
-							  10.0,1.0,0.0};
-		print(info, sizeof(data_pos1));
 
+		glfwSetKeyCallback(window, key_callback);
+		glfwSetCursorPos(window, GameSettings::resolution[0] / 2, GameSettings::resolution[1] / 2);
 		// render loop
 		while (!glfwWindowShouldClose(window)) {
 			
 			
 
+
+
 			ImGui_ImplOpenGL3_NewFrame();
 			ImGui_ImplGlfw_NewFrame();
 			ImGui::NewFrame();
 
+			double xpos, ypos;
+
+			glfwGetCursorPos(window, &xpos, &ypos);
+			xpos = xpos / GameSettings::resolution[0] * 2 - 1;
+			ypos = ypos / GameSettings::resolution[1] * 2 - 1;
 
 
-			GLint coordsUniformlocationPos1 = glGetUniformLocation(shaderProgram, "u_pos1");
-			glUniformMatrix3fv(coordsUniformlocationPos1, 9, false, data_pos1);
+			if (isInteractable) {
+				glfwSetCursorPos(window, GameSettings::resolution[0] / 2, GameSettings::resolution[1] / 2);
+				CameraPitch += -float(ypos);
+				CameraYaw += float(xpos);
+			}
+			
+
+			glUniform3fv(glGetUniformLocation(shaderProgram, "spherePosition"), sizeof(SpherePosition) / 4, SpherePosition);
+			glUniform3fv(glGetUniformLocation(shaderProgram, "sphereColor"), sizeof(SphereColor) / 4, SphereColor);
+			glUniform1fv(glGetUniformLocation(shaderProgram, "sphereSize"), sizeof(SphereSize) / 4, SphereSize);
+			glUniform1fv(glGetUniformLocation(shaderProgram, "sphereEmmision"), sizeof(SphereEmmision) / 4, SphereEmmision);
+
 
 			glUniform2f(glGetUniformLocation(shaderProgram, "u_resolution"), GameSettings::resolution[0], GameSettings::resolution[1]);
+
+			glUniform1i(glGetUniformLocation(shaderProgram, "u_maxBounces"), maxBounces);
+			glUniform1i(glGetUniformLocation(shaderProgram, "u_raysPerPixel"), raysPerPixel);
+			glUniform1i(glGetUniformLocation(shaderProgram, "u_time"), glfwGetTime());
+
+			glUniform1f(glGetUniformLocation(shaderProgram, "u_cameraYaw"), CameraYaw);
+			glUniform1f(glGetUniformLocation(shaderProgram, "u_emmision"), Emmision);
+			glUniform1f(glGetUniformLocation(shaderProgram, "u_cameraPitch"), CameraPitch);
+			glUniform3f(glGetUniformLocation(shaderProgram, "u_cameraPos"), CameraPos[0], CameraPos[1], CameraPos[2]);
+
+			//glUniform1i(glGetUniformLocation(shaderProgram, "u_totalTriangles"), sizeof(data_pos1) / 36);
+
+			glUniform1i(glGetUniformLocation(shaderProgram, "u_currentTriangle"), triangleOffset);
+			
+
 
 			// ------
 			glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -294,8 +451,10 @@ namespace Core {
 			glDrawArrays(GL_TRIANGLES, 0, 6);
 			// glBindVertexArray(0); // no need to unbind it every time 
 
-
-			ImGuiBridge::runImGui();
+			if (!isInteractable) {
+				ImGuiBridge::runImGui();
+			}
+			
 
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
